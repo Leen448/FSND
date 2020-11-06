@@ -4,8 +4,8 @@ from wtforms import StringField, SelectField, SelectMultipleField, DateTimeField
 from wtforms.validators import DataRequired, AnyOf, URL ,Length
 from enum import Enum, auto
 
-def anyof_for_multiple_field(values):
-  message = 'Invalid value, must be one of: {0}.'.format( ','.join(values) )
+def anyof_multiple_field(values_list):
+  message = 'Invalid value, must be one of: {0}.'.format( ','.join(values_list) )
 
   def _validate(form, field):
     error = False
@@ -127,7 +127,7 @@ class VenueForm(Form):
     )
     genres = SelectMultipleField(
         # TODO implement enum restriction
-        'genres', validators=[DataRequired(), anyof_for_multiple_field( [ choice.value for choice in Genre ] )],
+        'genres', validators=[DataRequired(), anyof_multiple_field( [ choice.value for choice in Genre ] )],
         choices=Genre.choices()
     )   
     facebook_link = StringField(
@@ -206,7 +206,7 @@ class ArtistForm(Form):
     
     genres = SelectMultipleField(
         # TODO implement enum restriction
-        'genres', validators=[DataRequired(), anyof_for_multiple_field( [ choice.value for choice in Genre ] )],
+        'genres', validators=[DataRequired(), anyof_multiple_field( [ choice.value for choice in Genre ] )],
         choices=Genre.choices()
     )
     facebook_link = StringField(
