@@ -40,8 +40,8 @@ class Genre(Enum):
                 Other = 'Other'    
 
                 @classmethod
-                def choices(cls):
-                    return [ (choice.value, choice.value) for choice in cls ]
+                def choices(choice_list):
+                    return [ (choice.value, choice.value) for choice in choice_list ]
 
 class ShowForm(Form):
     artist_id = StringField('artist_id',validators=[DataRequired()])
