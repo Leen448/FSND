@@ -161,8 +161,6 @@ def show_venue(venue_id):
                   "city": query[0].Venue.city,
                   "state":query[0].Venue.state,
                   "phone":query[0].Venue.phone,
-                  # what to do with this?
-                  "website": "https://www.gunsnpetalsband.com",
                   "facebook_link": query[0].Venue.facebook_link,
                   "image_link":query[0].Venue.image_link ,
                   "upcoming_shows_count" : 0 ,
@@ -210,7 +208,6 @@ def show_venue(venue_id):
                   "state":query[0].state,
                   "phone":query[0].phone,
                   "address" :query[0].address,
-                  "website": "https://www.gunsnpetalsband.com",
                   "facebook_link": query[0].facebook_link,
                   "image_link":query[0].image_link ,
                   "upcoming_shows_count" : 0 ,
@@ -311,8 +308,6 @@ def show_artist(artist_id):
                   "city": query[0].Artist.city,
                   "state":query[0].Artist.state,
                   "phone":query[0].Artist.phone,
-                  # what to do with this?
-                  "website": "https://www.gunsnpetalsband.com",
                   "facebook_link": query[0].Artist.facebook_link,
                   "image_link":query[0].Artist.image_link ,
                   "upcoming_shows_count" : 0 ,
@@ -356,7 +351,6 @@ def show_artist(artist_id):
                   "city": query[0].city,
                   "state":query[0].state,
                   "phone":query[0].phone,
-                  "website": "https://www.gunsnpetalsband.com",
                   "facebook_link": query[0].facebook_link,
                   "image_link":query[0].image_link ,
                   "upcoming_shows_count" : 0 ,
