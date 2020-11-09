@@ -1,11 +1,17 @@
 from datetime import datetime
-from flask_wtf import Form
-from wtforms import StringField, SelectField, SelectMultipleField, DateTimeField
+from flask_wtf import FlaskForm
+from wtforms import (StringField,
+                     SelectField,
+                     SelectMultipleField, 
+                     DateTimeField,
+                     BooleanField)
 from wtforms.validators import DataRequired, AnyOf, URL ,Length
 from enum import Enum, auto
+from wtforms.widgets import TextArea
 
 def anyof_multiple_field(values_list):
-  message = 'Invalid value, must be one of: {0}.'.format( ','.join(values_list) )
+  message ='Invalid value, must be one of: {0}.'.format( 
+           ','.join(values_list))
 
   def _validate(form, field):
     error = False
@@ -19,31 +25,31 @@ def anyof_multiple_field(values_list):
   return _validate
 
 class Genre(Enum):
-                Alternative = 'Alternative'
-                Blues = 'Blues'
-                Classical = 'Classical'
-                Country = 'Country'
-                Electronic = 'Electronic'
-                Folk = 'Folk'
-                Funk = 'Funk'
-                Hip_Hop = 'Hip-Hop'
-                Heavy_Metal = 'Heavy Metal'
-                Instrumental = 'Instrumental'
-                Jazz = 'Jazz'
-                Musical_Theatre = 'Musical Theatre'
-                Pop = 'Pop'
-                Punk = 'Punk'
-                R_AND_B = 'R&B'
-                Reggae = 'Reggae'
-                Rock_n_Roll = 'Rock n Roll'
-                Soul = 'Soul'
-                Other = 'Other'    
+    Alternative = 'Alternative'
+    Blues = 'Blues'
+    Classical = 'Classical'
+    Country = 'Country'
+    Electronic = 'Electronic'
+    Folk = 'Folk'
+    Funk = 'Funk'
+    Hip_Hop = 'Hip-Hop'
+    Heavy_Metal = 'Heavy Metal'
+    Instrumental = 'Instrumental'
+    Jazz = 'Jazz'
+    Musical_Theatre = 'Musical Theatre'
+    Pop = 'Pop'
+    Punk = 'Punk'
+    R_AND_B = 'R&B'
+    Reggae = 'Reggae'
+    Rock_n_Roll = 'Rock n Roll'
+    Soul = 'Soul'
+    Other = 'Other'    
 
-                @classmethod
-                def choices(choice_list):
-                    return [ (choice.value, choice.value) for choice in choice_list ]
+    @classmethod
+    def choices(choice_list):
+       return [ (choice.value, choice.value) for choice in choice_list ]
 
-class ShowForm(Form):
+class ShowForm(FlaskForm):
     artist_id = StringField('artist_id',validators=[DataRequired()])
     venue_id  = StringField('venue_id',validators=[DataRequired()])
     start_time = DateTimeField(
@@ -52,7 +58,7 @@ class ShowForm(Form):
         default= datetime.today()
     )
 
-class VenueForm(Form):
+class VenueForm(FlaskForm):
     
     state_choices=[
             ('AL', 'AL'),
@@ -109,7 +115,8 @@ class VenueForm(Form):
         ]
 
     name = StringField('name', validators=[DataRequired()] )
-    city = StringField('city', validators=[DataRequired(),Length(min=5, max=120)] )
+    city = StringField(
+           'city',validators=[DataRequired(),Length(min=5, max=120)])
     
     state = SelectField(
         'state', validators=[DataRequired(), AnyOf(state_choices)],
@@ -127,14 +134,24 @@ class VenueForm(Form):
     )
     genres = SelectMultipleField(
         # TODO implement enum restriction
-        'genres', validators=[DataRequired(), anyof_multiple_field( [ choice.value for choice in Genre ] )],
-        choices=Genre.choices()
+        'genres', validators=[DataRequired(),
+         anyof_multiple_field( [ choice.value for choice in Genre ] )],
+         choices=Genre.choices()
     )   
     facebook_link = StringField(
        'facebook_link', validators=[URL(),Length(min=5, max=120)]
+    ) 
+    website = StringField(
+        # TODO implement enum restriction
+        'website', validators=[URL(),Length(min=5, max=120)]
     )
+    seeking_talent = BooleanField(
+        'seeking_talent',default=False, validators=[AnyOf([True, False])])
+    
+    seeking_description = StringField(
+        'seeking_description', widget=TextArea())
 
-class ArtistForm(Form):
+class ArtistForm(FlaskForm):
     state_choices=[
             ('AL', 'AL'),
             ('AK', 'AK'),
@@ -189,8 +206,12 @@ class ArtistForm(Form):
             ('WY', 'WY'),
         ]
    
-    name = StringField('name', validators=[DataRequired()] )
-    city = StringField('city', validators=[DataRequired(),Length(min=5, max=120)] )
+    name = StringField(
+        'name', validators=[DataRequired()]
+    )
+    city = StringField(
+        'city', validators=[DataRequired(),Length(min=5, max=120)] 
+    )
    
     state = SelectField(
         'state', validators=[DataRequired(), AnyOf(state_choices)],
@@ -206,12 +227,22 @@ class ArtistForm(Form):
     
     genres = SelectMultipleField(
         # TODO implement enum restriction
-        'genres', validators=[DataRequired(), anyof_multiple_field( [ choice.value for choice in Genre ] )],
-        choices=Genre.choices()
-    )
+        'genres', validators=[DataRequired(),
+         anyof_multiple_field( [ choice.value for choice in Genre ] )],
+         choices=Genre.choices()
+    ) 
     facebook_link = StringField(
         # TODO implement enum restriction
         'facebook_link', validators=[URL(),Length(min=5, max=120)]
     )
+    website = StringField(
+        # TODO implement enum restriction
+        'website', validators=[URL(),Length(min=5, max=120)]
+    )
+    seeking_venue =  BooleanField(
+        'seeking_venue',default=False, validators=[AnyOf([True, False])])
+    
+    seeking_description = StringField(
+        'seeking_description', widget=TextArea())
 
 # TODO IMPLEMENT NEW ARTIST FORM AND NEW SHOW FORM
